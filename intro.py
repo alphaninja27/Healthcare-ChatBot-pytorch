@@ -1,4 +1,5 @@
 import random
+import getpass
 
 from validations import validate_name, validate_dob,validate_contact_num,validate_insurance_number,validate_email
 from db_connect import write_dictionary_to_table,find_person_by_item,search_login_credentials,search_email_from_healthdata
@@ -29,7 +30,7 @@ def register(healthdata,flag):
         if user_found is None:
             healthdata["email"] = user_email
             print(f"{bot_name}: Please enter your password:")
-            user_password = input("You: ")
+            user_password = getpass.getpass(input("You: "))
             flag = endconv(user_password,flag=flag)
             if flag != False:
                 healthdata["pass"] = user_password
