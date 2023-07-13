@@ -14,6 +14,8 @@ class ChatApplication:
     def __init__(self):
         self.window = Tk()
         self._setup_main_window()
+        self.window.bind("<Escape>", self._close_application)
+
 
     def run(self):
         self.window.mainloop()
@@ -84,6 +86,9 @@ class ChatApplication:
         self.text_widget.configure(state=DISABLED)
 
         self.text_widget.see(END)
+
+    def _close_application(self, event):
+        self.window.destroy()
 
 
 if __name__ == "__main__":
