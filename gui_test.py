@@ -1,6 +1,6 @@
 import random
 import json
-
+import getpass
 import torch
 
 from model import NeuralNet
@@ -98,7 +98,8 @@ def get_response(msg):
 login_pass = []
 count = 1
 def login(msg):
-    global healthdata,is_login_state,count,login_pass,current_appointments
+    global healthdata, is_login_state, count, login_pass, current_appointments
+    
     if count == 1:
         count += 1
         print("here")
@@ -111,8 +112,8 @@ def login(msg):
         else:
             return "Invalid email address format. Please enter an email address in the format username@domain.com."
     elif count == 3:
-        login_pass.append(msg)
-        if search_login_credentials(login_pass[0],login_pass[1]) == True:
+        login_pass.append(getpass.getpass("Please enter your Password: "))
+        if search_login_credentials(login_pass[0], login_pass[1]) == True:
             count += 1
             healthdata.update(search_email_from_healthdata(login_pass[0]))
             is_login_state = False
@@ -123,6 +124,32 @@ def login(msg):
             count = 2
             login_pass.clear()
             return "Please enter correct Email: "
+# def login(msg):
+#     global healthdata,is_login_state,count,login_pass,current_appointments
+#     if count == 1:
+#         count += 1
+#         print("here")
+#         return "Please enter your Email: "
+#     elif count == 2:
+#         if validate_email(msg) == True:
+#             count += 1
+#             login_pass.append(msg)
+#             return "Please enter your Password!"
+#         else:
+#             return "Invalid email address format. Please enter an email address in the format username@domain.com."
+#     elif count == 3:
+#         login_pass.append(msg)
+#         if search_login_credentials(login_pass[0],login_pass[1]) == True:
+#             count += 1
+#             healthdata.update(search_email_from_healthdata(login_pass[0]))
+#             is_login_state = False
+#             mrn_num = healthdata["MRN"]
+#             current_appointments = find_bookings("bookings", "MRN", mrn_num)
+#             return "Login Successful"
+#         else:
+#             count = 2
+#             login_pass.clear()
+#             return "Please enter correct Email: "
 
 regisration_details = {
     "name": None,
