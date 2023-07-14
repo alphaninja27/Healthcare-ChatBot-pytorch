@@ -97,21 +97,30 @@ def get_response(msg):
 
 login_pass = []
 count = 1
+login_pass = []
+count = 1
+
 def login(msg):
     global healthdata, is_login_state, count, login_pass, current_appointments
+    
     if count == 1:
         count += 1
-        print("here")
+        print("Please enter your Email: ")
         return "Please enter your Email: "
+    
     elif count == 2:
         if validate_email(msg) == True:
             count += 1
             login_pass.append(msg)
-            return "Please enter your Password!"
+            print("Please enter your Password: ")
+            return "Please enter your Password: "
         else:
             return "Invalid email address format. Please enter an email address in the format username@domain.com."
+    
     elif count == 3:
-        login_pass.append(getpass.getpass(prompt="Please enter your Password!"))
+        password = get_password_input()
+        login_pass.append(password)
+        
         if search_login_credentials(login_pass[0], login_pass[1]) == True:
             count += 1
             healthdata.update(search_email_from_healthdata(login_pass[0]))
@@ -123,6 +132,15 @@ def login(msg):
             count = 2
             login_pass.clear()
             return "Please enter correct Email: "
+
+def get_password_input():
+    password = ""
+    while True:
+        char = getpass.getpass(prompt="", stream=None)
+        if char == "":
+            break
+        password += char
+    return password
 
 # def login(msg):
 #     global healthdata,is_login_state,count,login_pass,current_appointments
